@@ -17,15 +17,19 @@ struct _app_t {
 /*---------------------------------------------------------------------------*/
 
 static void i_on_open(App *app, Event *e) {
-  /* printf("%s\n",s);
-   */
+  String *msg = "..open";
+
   const char_t *type[] = {"txt", "ct"};
   const char_t *file = comwin_open_file(app->window, type, 2, NULL, NULL, NULL);
-  Stream *stm = stm_from_file(file, NULL);
-  if (stm != NULL) {
-    String *s = dbind_read(stm, String);
-    textview_printf(app->text, "%s", s);
-    stm_close(&stm);
+  if (file != NULL) {
+    Stream *stm = stm_from_file(file, NULL);
+    if (stm != NULL) {
+      String *s = dbind_read(stm, String);
+      textview_printf(app->text, "%s", s);
+      stm_close(&stm);
+    } else {
+      printf("%s\n", EXIT_FAILURE);
+    }
   }
   unref(e);
 }
