@@ -1,26 +1,27 @@
 /* NAppGUI Hello World */
 
-#include <nappgui.h>
+  #include <nappgui.h>
 #include <stdlib.h>
 #include <stdio.h>
 
-int32_t get_random(void);
-
-typedef struct _app_t App;
+  int32_t get_random(void);
+   typedef struct _app_t App;
 
 struct _app_t
 {
-    Window *window;
+      Window *window;
     TextView *text;
-    uint32_t clicks;
-    Menu *menu;
-};
+       uint32_t clicks;
+       Menu *menu;
+
+    };
 
 
 
-/*---------------------------------------------------------------------------*/
 
-static void i_on_open(App *app, Event *e)
+    /*---------------------------------------------------------------------------*/
+
+  static void i_on_open(App *app, Event *e)
 {
     /* printf("%s\n",s);
     */
