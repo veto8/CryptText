@@ -20,7 +20,7 @@ struct _app_t
 
 /*---------------------------------------------------------------------------*/
 
-static void i_OnButton0(App *app, Event *e)
+static void i_on_open(App *app, Event *e)
 {
     /* printf("%s\n",s);
     */
@@ -38,25 +38,26 @@ static void i_OnButton0(App *app, Event *e)
   /*
     https://devtut.github.io/c/files-and-i-o-streams.html#open-and-write-to-file
    */
-static void i_OnButton1(App *app, Event *e)
+static void i_on_save(App *app, Event *e)
 {
    const char_t *type[] = {"txt"};
       
   const char_t *path = comwin_save_file(app->window, type, 1, NULL,NULL,NULL);
     FILE *file = fopen(path, "w");
-    String *s = textview_get_text(app->text);
+    // String *s = textview_get_text(app->text);
+    String *s = "hello";
 
-    /* printf("%s\n",s); */
-    
-   if (!file) 
-   {
-      perror(path);
-       return EXIT_FAILURE;
+
+
+    if (!file) {
+      printf("xxxxxxxx%s\n",s);
+      // perror(path);
+       e = EXIT_FAILURE;      
+      return EXIT_FAILURE;
    }
 
-    
-   if (fputs(s, file) == EOF)
-   {
+   if (fputs(s, file) == EOF) {
+
        perror(path);
        e = EXIT_FAILURE;
    }
@@ -64,10 +65,10 @@ static void i_OnButton1(App *app, Event *e)
    {
        perror(path);
        return EXIT_FAILURE;
-   }
-    
+   } else {
+     }    
 
-    unref(e);
+   unref(e);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -79,8 +80,8 @@ static Panel *i_panel(App *app)
     Layout *layout1 = layout_create(3, 1);        
     Layout *layout2 = layout_create(8, 1);
     Label *label = label_create();
-    Button *button0 = button_push();
-    Button *button1 = button_push();
+    Button *btn_open = button_push();
+    Button *btn_save = button_push();
     Button *button2 = button_push();
     Button *button3 = button_push();
     Button *button4 = button_push();
@@ -88,8 +89,8 @@ static Panel *i_panel(App *app)
     TextView *text = textview_create();
 
     
-    button_text(button0, "Open");
-    button_text(button1, "Save");
+    button_text(btn_open, "Open");
+    button_text(btn_save, "Save");
     button_text(button2, "Cut");
     button_text(button3, "Copy");
     button_text(button4, "Paste");
@@ -99,13 +100,13 @@ static Panel *i_panel(App *app)
     label_text(label, "m1m1");
 
     
-    button_OnClick(button0, listener(app, i_OnButton0, App));
-    button_OnClick(button1, listener(app, i_OnButton1, App));    
+    button_OnClick(btn_open, listener(app, i_on_open, App));
+    button_OnClick(btn_save, listener(app, i_on_save, App));    
 
     
     layout_label(layout1, label, 0, 0);
-    layout_button(layout2, button0, 0, 0);
-    layout_button(layout2, button1, 1, 0);
+    layout_button(layout2, btn_open, 0, 0);
+    layout_button(layout2, btn_save, 1, 0);
     layout_button(layout2, button2, 2, 0);
     layout_button(layout2, button3, 3, 0);
     layout_button(layout2, button4, 4, 0);
@@ -128,7 +129,7 @@ static Panel *i_panel(App *app)
 
 /*---------------------------------------------------------------------------*/
 
-static void i_OnClose(App *app, Event *e)
+static void i_on_close(App *app, Event *e)
 {
     osapp_finish();
     unref(app);
@@ -147,7 +148,7 @@ static App *i_create(void)
     window_panel(app->window, panel);
     window_title(app->window, "CryptText");
     window_origin(app->window, v2df(500, 250));
-    window_OnClose(app->window, listener(app, i_OnClose, App));
+    window_OnClose(app->window, listener(app, i_on_close, App));
 
 
     Menu *menu = menu_create();
@@ -216,8 +217,8 @@ static App *i_create(void)
 
 static void i_destroy(App **app)
 {
-    window_destroy(&(*app)->window);
-    heap_delete(app, App);
+  window_destroy(&(*app)->window);
+       heap_delete(app, App);
 }
 
 /*---------------------------------------------------------------------------*/
