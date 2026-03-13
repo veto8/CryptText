@@ -42,7 +42,7 @@ static void i_on_save(App *app, Event *e) {
   String *s = "hello";
 
   if (!file) {
-      printf("xxxxxxxx%s\n", s);
+    printf("xxxxxxxx%s\n", s);
     // perror(path);
     e = EXIT_FAILURE;
     return EXIT_FAILURE;
