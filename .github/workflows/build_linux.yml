@@ -18,7 +18,7 @@ jobs:
   # Single deploy job since we're just deploying
   # runner avail: https://github.com/actions/runner-images/issues/10636
   build:
-    if: github.repository_owner == 'myridia'
+    if: github.repository_owner == 'myridiax'
     runs-on: ubuntu-22.04  
     steps:
       - name: install dependencies
