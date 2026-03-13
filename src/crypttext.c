@@ -1,4 +1,4 @@
-/* NAppGUI Hello World */
+/* Crypttext */
 
 #include <nappgui.h>
 #include <stdio.h>
